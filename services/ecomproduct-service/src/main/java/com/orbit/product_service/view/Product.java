@@ -11,11 +11,9 @@ public class Product {
 	String id;
 	String title;
 	String imgUrl;
-	Float stars;
+	Float rating;
 	Integer reviewCount;
 	Double price;
-    Double listPrice;
-    String categoryId;
-    Boolean isBestSeller;
-    Integer boughtInLastMonth;
+    String category;
+    String seller;
 }	

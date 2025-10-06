@@ -26,7 +26,7 @@ public class Product {
 	Double price;
 	@ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+    Category category;
 	@ManyToOne
 	@JoinColumn(name = "seller_id", nullable = false)
 	Seller seller;

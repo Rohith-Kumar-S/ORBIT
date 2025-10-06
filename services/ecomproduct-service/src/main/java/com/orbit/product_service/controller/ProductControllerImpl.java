@@ -12,17 +12,24 @@ import com.orbit.product_service.view.Product;
 @RestController
 public class ProductControllerImpl implements ProductControllerInterface{
 	
-	private final ProductServiceInterface ecomService;
+	private final ProductServiceInterface productService;
 	
 	@Autowired
-	public ProductControllerImpl(ProductServiceInterface ecomService) {
-	    this.ecomService = ecomService;
+	public ProductControllerImpl(ProductServiceInterface productService) {
+	    this.productService = productService;
 	}
 
 	@Override
-	public ResponseEntity<Product> getEComProductById(String id) {
+	public ResponseEntity<Product> getEComProductById(Integer sellerId, String productId) {
 		// TODO Auto-generated method stub
-		return ResponseEntity.ok(this.ecomService.getProduct(id));
+		
+		Boolean sellerActive = this.productService.isSellerActive(sellerId);
+		if(sellerActive) {
+			return ResponseEntity.ok(this.productService.getProduct(productId, sellerId));
+		}
+		else {
+			return ResponseEntity.ok(new Product());
+		}
 	}
 
 	@Override
