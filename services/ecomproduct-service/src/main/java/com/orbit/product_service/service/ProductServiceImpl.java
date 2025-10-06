@@ -3,6 +3,10 @@ package com.orbit.product_service.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.orbit.product_service.dao.ProductServiceRepo;
@@ -33,7 +37,6 @@ public class ProductServiceImpl implements ProductServiceInterface{
 	@Transactional
 	public Product getProduct(String id, Integer sellerId) {
 		// TODO Auto-generated method stub
-		System.out.println("Hello");
 		Optional<com.orbit.product_service.model.Product> product_opt = this.productServiceRepo.findByIdAndSellerId(id, sellerId);
 		if(product_opt.isPresent()) {
 			Product product_view = this.productServiceMapper.mapProductModelToView(product_opt.get());
@@ -56,9 +59,25 @@ public class ProductServiceImpl implements ProductServiceInterface{
 	}
 
 	@Override
-	public Product getProductbyTitle(String title, Integer sellerId) {
+	public Page<Product> getProductbyTitle(String title, Integer sellerId, String sortBy, String sortDirection, Integer pageNumber, Integer productCount) {
 		// TODO Auto-generated method stub
-		return null;
+		
+		Sort sort = Sort.unsorted();
+		switch(sortBy) {
+		case "price": 
+			sort = Sort.by(sortBy=="ASC"?Sort.Direction.ASC:Sort.Direction.DESC, "price");
+			break;
+		case "rating": 
+			sort = Sort.by(sortBy=="ASC"?Sort.Direction.ASC:Sort.Direction.DESC, "rating");
+			break;
+		default : 
+			break;
+		}
+		
+		Pageable pageable = PageRequest.of(pageNumber, productCount, sort);
+		Page<com.orbit.product_service.model.Product> productsPageModel = this.productServiceRepo.findByTitleAndSellerId(title, sellerId, pageable) ;
+		Page<Product> productsView = productsPageModel.map(this.productServiceMapper::mapProductModelToView);
+		return productsView;
 	}
 	
 	

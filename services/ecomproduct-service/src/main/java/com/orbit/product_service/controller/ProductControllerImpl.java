@@ -3,6 +3,7 @@ package com.orbit.product_service.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +21,7 @@ public class ProductControllerImpl implements ProductControllerInterface{
 	}
 
 	@Override
-	public ResponseEntity<Product> getEComProductById(Integer sellerId, String productId) {
+	public ResponseEntity<Product> getProductById(Integer sellerId, String productId) {
 		// TODO Auto-generated method stub
 		
 		Boolean sellerActive = this.productService.isSellerActive(sellerId);
@@ -33,9 +34,21 @@ public class ProductControllerImpl implements ProductControllerInterface{
 	}
 
 	@Override
-	public ResponseEntity<List<Product>> getEComProductsByIds(String ids) {
+	public ResponseEntity<List<Product>> getProductsByIds(String ids) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public ResponseEntity<Page<Product>> getProductByTitle(Integer sellerId, String productTitle, String sortBy, String sortDirection, Integer page, Integer productCount) {
+		// TODO Auto-generated method stub
+		Boolean sellerActive = this.productService.isSellerActive(sellerId);
+		if(sellerActive) {
+			return ResponseEntity.ok(this.productService.getProductbyTitle(productTitle, sellerId, sortBy, sortDirection, page, productCount));
+		}
+		else {
+			return null;
+		}
 	}
 
 	
