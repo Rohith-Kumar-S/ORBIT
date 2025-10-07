@@ -29,3 +29,26 @@ jobs:
         cache: maven
     - name: Build all modules
       run: mvn -B clean install -DskipTests
+
+    - name: Build & push Product Service image
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+        image: phantomrogue88/product-service
+        tags: v1, latest
+        registry: docker.io
+        dockerfile: services/product-service/Dockerfile
+        directory: services/product-service
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build & push User Service image
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+        image: phantomrogue88/user-service
+        tags: v1, latest
+        registry: docker.io
+        dockerfile: services/user-service/Dockerfile
+        directory: services/user-service
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
