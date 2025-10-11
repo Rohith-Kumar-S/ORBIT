@@ -1,5 +1,6 @@
 package com.orbit.product_service.service;
 
+import java.util.List;
 import org.springframework.data.domain.Page;
 
 import com.orbit.product_service.view.Product;
@@ -13,4 +14,5 @@ public interface ProductServiceInterface {
 	
 	Page<Product> getProductbyTitle(String title, Integer sellerId, String sortBy, String sortDirection, Integer pageNumber, Integer productCount);
 
+	List<com.orbit.product_service.view.Product> getAllProductsByIds(List<String> productIds);
 }
