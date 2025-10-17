@@ -3,10 +3,13 @@ package com.orbit.user_service.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.orbit.user_service.dao.UserRepository;
-import com.orbit.user_service.view.User;
+import com.orbit.user_service.dto.LoginResponse;
+import com.orbit.user_service.dto.User;
+import com.orbit.user_service.dto.UserDetails;
 
 import jakarta.transaction.Transactional;
 
@@ -14,20 +17,27 @@ import jakarta.transaction.Transactional;
 public class UserServiceImpl implements UserServiceInterface{
 	
 	private final UserRepository userRepository;
+	private final PasswordEncoder passwordEncoder;
+	private final JWTTokenService jwtTokenService;
 	
 	@Autowired
-	public UserServiceImpl(UserRepository userRepository) {
+	public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JWTTokenService jwtTokenService) {
 		// TODO Auto-generated constructor stub
 		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+		this.jwtTokenService = jwtTokenService;
 	}
 
 	@Override
 	@Transactional
-	public Boolean onBoardUser(User user) {
+	public Boolean onBoardUser(UserDetails user) {
 		com.orbit.user_service.model.User model_user = new com.orbit.user_service.model.User();
 		model_user.setName(user.getName());
 		model_user.setLocation(user.getLocation());
-		
+		model_user.setPassword(passwordEncoder.encode(user.getPassword()));
+		model_user.setEmail(user.getEmail());
+		model_user.setMobileNumber(user.getMobileNumber());
+		model_user.setRole(user.getRole());
 		this.userRepository.save(model_user);
 		
 		Optional<com.orbit.user_service.model.User> fetcheduser= this.userRepository.findById(model_user.getId());
@@ -39,6 +49,20 @@ public class UserServiceImpl implements UserServiceInterface{
 			return false;
 		}
 		
+	}
+
+	@Override
+	public LoginResponse loginUser(User user) {
+		// TODO Auto-generated method stub
+		
+		Optional<com.orbit.user_service.model.User> modaluser= this.userRepository.findByName(user.getName());
+		
+		if(modaluser.isPresent()) {
+			String token = jwtTokenService.generateToken(modaluser.get());
+			return new LoginResponse(Boolean.TRUE, token);
+			
+		}
+		return new LoginResponse(Boolean.FALSE, "");
 	}
 	
 	
