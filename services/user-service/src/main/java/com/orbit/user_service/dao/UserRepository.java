@@ -10,5 +10,5 @@ import com.orbit.user_service.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Integer>{
 
-	Optional<User> findByName(String userName);
+	Optional<User> findByEmail(String email);
 }

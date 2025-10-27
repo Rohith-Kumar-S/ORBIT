@@ -28,9 +28,9 @@ public class User {
 	@Column(nullable = false, length = 60)
 	private String password;
 	private String name;
-	private String location;
 	private String mobileNumber;
 	private String email;
+	private Double accountBalance=150.0;
 	@Enumerated(EnumType.STRING)
 	private Role role;
 	

@@ -11,5 +11,5 @@ import com.orbit.cart_service.dto.Cart;
 @FeignClient(name = "order-service", url = "http://localhost:8082/api/order")
 public interface OrderClient {
 	@PostMapping
-	Boolean proceedToBuy(@RequestBody Cart cart);
+	String proceedToBuy(@RequestBody Cart cart);
 }

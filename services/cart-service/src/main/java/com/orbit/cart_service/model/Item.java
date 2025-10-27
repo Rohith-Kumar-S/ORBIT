@@ -26,7 +26,9 @@ public class Item {
 	
 	String productId;
 	
-	Long quantity;
+	Integer quantity;
+	
+	Double price;
 	
 	@ManyToOne
 	@JoinColumn(name = "cart_id", nullable = false)

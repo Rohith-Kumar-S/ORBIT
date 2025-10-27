@@ -52,3 +52,25 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
 
+    - name: Build & push Order Service image
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+        image: phantomrogue88/order-service
+        tags: v1, latest
+        registry: docker.io
+        dockerfile: services/order-service/Dockerfile
+        directory: services/order-service
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build & push Cart Service image
+      uses: mr-smithers-excellent/docker-build-push@v6
+      with:
+        image: phantomrogue88/cart-service
+        tags: v1, latest
+        registry: docker.io
+        dockerfile: services/cart-service/Dockerfile
+        directory: services/cart-service
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+

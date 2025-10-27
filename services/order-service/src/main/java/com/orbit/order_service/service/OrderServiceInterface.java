@@ -1,9 +1,12 @@
 package com.orbit.order_service.service;
 
 import com.orbit.order_service.dto.Cart;
+import com.orbit.order_service.dto.Response;
 
 
 public interface OrderServiceInterface {
 	
-	Boolean proceedToBuy(Cart cart, Integer userId);
+	String proceedToBuy(Cart cart, Integer userId);
+
+	Response getOrders(Integer userId);
 }

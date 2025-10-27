@@ -34,6 +34,11 @@ public class Cart {
 	@Enumerated(EnumType.STRING)
 	Status status;
 	
+	private Double shippingCost;
+	private Double tax;
+	private Double itemsTotalCost;
+	private String sellerId;
+	
 	@OneToMany(mappedBy="cart", cascade=CascadeType.ALL, orphanRemoval = true)
 	private List<Item> items;
 }

@@ -34,7 +34,6 @@ public class UserServiceImpl implements UserServiceInterface {
 	public Boolean onBoardUser(UserDetails user) {
 		com.orbit.user_service.model.User model_user = new com.orbit.user_service.model.User();
 		model_user.setName(user.getName());
-		model_user.setLocation(user.getLocation());
 		model_user.setPassword(passwordEncoder.encode(user.getPassword()));
 		model_user.setEmail(user.getEmail());
 		model_user.setMobileNumber(user.getMobileNumber());
@@ -55,15 +54,15 @@ public class UserServiceImpl implements UserServiceInterface {
 	public LoginResponse loginUser(User user) {
 		// TODO Auto-generated method stub
 
-		Optional<com.orbit.user_service.model.User> modaluser = this.userRepository.findByName(user.getName());
+		Optional<com.orbit.user_service.model.User> modaluser = this.userRepository.findByEmail(user.getEmail());
 
 		if (modaluser.isPresent()) {
 			if (passwordEncoder.matches(user.getPassword(), modaluser.get().getPassword())) {
 				String token = jwtTokenService.generateToken(modaluser.get());
-				return new LoginResponse(Boolean.TRUE, token);
+				return new LoginResponse(Boolean.TRUE, token, new UserDetails(modaluser.get().getName(), modaluser.get().getAccountBalance()));
 			}
 		}
-		return new LoginResponse(Boolean.FALSE, "");
+		return new LoginResponse(Boolean.FALSE, "", new UserDetails());
 	}
 
 }

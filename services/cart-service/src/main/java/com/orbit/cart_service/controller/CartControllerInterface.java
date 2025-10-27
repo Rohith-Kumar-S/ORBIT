@@ -19,8 +19,12 @@ public interface CartControllerInterface {
   ResponseEntity<?> getCart(@RequestAttribute("userId") Integer userId);
   
   @PostMapping("/checkout")
-  ResponseEntity<?> proceedToBuy(@RequestBody Cart cart, @RequestAttribute("userId") Integer userId);
+  ResponseEntity<?> checkOut(@RequestBody Cart cart, @RequestAttribute("userId") Integer userId);
   
-
+  @GetMapping("/pricing")
+  ResponseEntity<?> fetchPricing(@RequestAttribute("userId") Integer userId);
+  
+  @PostMapping("/proceedToBuy")
+  ResponseEntity<?> proceedToBuy(@RequestAttribute("userId") Integer userId);
 
 }

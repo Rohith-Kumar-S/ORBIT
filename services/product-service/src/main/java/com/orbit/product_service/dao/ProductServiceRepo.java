@@ -20,5 +20,6 @@ public interface ProductServiceRepo extends JpaRepository<Product, String>{
 	
 	@Query("SELECT p from Product p WHERE lower(p.title) LIKE LOWER(CONCAT('%', :title, '%')) AND p.seller.id=:sellerId")
 	Page<Product> findByTitleAndSellerId(@Param("title") String title, @Param("sellerId") Integer sellerId, Pageable pageable);
+	Page<Product> findBySellerId(Integer sellerId, Pageable pageable);
 
 }

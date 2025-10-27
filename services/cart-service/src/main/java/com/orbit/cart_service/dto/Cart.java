@@ -10,5 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Cart {
-  List<Item> items;
-}	
+	private List<Item> items;
+	private Double shippingCost;
+	private Double tax;
+	private Double itemsTotalCost;
+	private String sellerId;
+}

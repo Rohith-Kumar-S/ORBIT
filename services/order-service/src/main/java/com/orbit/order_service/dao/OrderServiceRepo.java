@@ -1,6 +1,5 @@
 package com.orbit.order_service.dao;
-
-
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,5 +11,7 @@ import com.orbit.order_service.model.Order;
 public interface OrderServiceRepo extends JpaRepository<Order, Integer>{
 	
 	Optional<Order> findByUserId(Integer userid);
+	
+	List<Order> findAllByUserId(Integer userid);
 
 }

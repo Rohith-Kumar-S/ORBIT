@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDetails extends User{
-	private String location;
-	private String mobileNumber;
-	private String email;
+	private String name;
+	private Double accountBalance;
 }

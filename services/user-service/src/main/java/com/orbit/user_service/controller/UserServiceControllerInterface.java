@@ -11,7 +11,7 @@ import com.orbit.user_service.dto.User;
 import com.orbit.user_service.dto.UserDetails;
 
 
-@RequestMapping("/api/user")
+@RequestMapping("/api/auth/user")
 public interface UserServiceControllerInterface {
 	
 	@PostMapping("/register")

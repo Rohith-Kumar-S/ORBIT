@@ -1,5 +1,7 @@
 package com.orbit.order_service.model;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 import com.orbit.order_service.enums.Status;
@@ -18,7 +20,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="orders")
+@Table(name = "orders")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,12 +28,21 @@ public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
+
+	private String orderNumber;
+
 	private Integer userId;
-	
+
 	@Enumerated(EnumType.STRING)
 	Status status;
-	
-	@OneToMany(mappedBy="order", cascade=CascadeType.ALL, orphanRemoval = true)
+
+	private String orderDate;
+
+	private Double shippingCost;
+	private Double tax;
+	private Double itemsTotalCost;
+	private String sellerId;
+
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Item> items;
 }
