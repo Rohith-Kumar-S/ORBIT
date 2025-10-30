@@ -80,6 +80,11 @@ jobs:
     runs-on: self-hosted
 
     steps:
+      - name: Download docker-compose.yml from repository
+        run: |
+          cd /home/ubuntu/orbit
+          sudo wget https://raw.githubusercontent.com/Rohith-Kumar-S/ORBIT/main/docker-compose.yml -O docker-compose.yml
+          echo "docker-compose.yml downloaded successfully"
 
       - name: Stop and remove all running containers
         run: |
