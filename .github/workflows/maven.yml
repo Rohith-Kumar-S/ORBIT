@@ -84,18 +84,71 @@ jobs:
         run: |
           mkdir -p /home/ubuntu/orbit
 
-      - name: Download docker-compose.yml
+      - name: Download docker-compose.yml from repository
         run: |
-          curl -L -o /home/ubuntu/orbit/docker-compose.yml \
+          curl -fsSL -o /home/ubuntu/orbit/docker-compose.yml \
             https://raw.githubusercontent.com/Rohith-Kumar-S/ORBIT/main/docker-compose.yml
+          
+          # Verify download succeeded
+          if [ ! -s /home/ubuntu/orbit/docker-compose.yml ]; then
+            echo "Failed to download docker-compose.yml"
+            exit 1
+          fi
+          
+          echo "Successfully downloaded docker-compose.yml"
+          cat /home/ubuntu/orbit/docker-compose.yml
 
-      - name: Deploy Docker Compose
+      - name: Stop and remove all running containers
         run: |
           cd /home/ubuntu/orbit
+          
+          # Stop all containers defined in docker-compose
+          if [ -f docker-compose.yml ]; then
+            sudo docker compose down --remove-orphans
+          fi
+          
+          echo "All containers stopped and removed"
+
+      - name: Load environment variables
+        run: |
+          if [ -f /etc/environment ]; then
+            set -a
+            source /etc/environment
+            set +a
+            echo "Environment variables loaded"
+          fi
+
+      - name: Pull latest images
+        run: |
+          cd /home/ubuntu/orbit
+          sudo docker compose pull
+          echo "Latest images pulled"
+
+      - name: Start containers with new docker-compose.yml
+        run: |
+          cd /home/ubuntu/orbit
+          
+          # Load environment variables for this step too
           if [ -f /etc/environment ]; then
             set -a
             source /etc/environment
             set +a
           fi
-          sudo docker compose pull
-          sudo docker compose up -d --remove-orphans
+          
+          sudo docker compose up -d
+          echo "Containers started successfully"
+
+      - name: Verify deployment
+        run: |
+          cd /home/ubuntu/orbit
+          echo "Running containers:"
+          sudo docker compose ps
+          
+          # Optional: wait a few seconds and check if containers are still running
+          sleep 5
+          sudo docker compose ps
+
+      - name: Clean up unused Docker resources
+        run: |
+          sudo docker system prune -f
+          echo "Cleaned up unused Docker images and containers"
