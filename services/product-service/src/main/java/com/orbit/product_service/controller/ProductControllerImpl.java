@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.orbit.product_service.dto.ListResponse;
 import com.orbit.product_service.dto.Product;
 import com.orbit.product_service.dto.ProductInternalDto;
 import com.orbit.product_service.dto.ProductsResponse;
@@ -69,5 +70,22 @@ public class ProductControllerImpl implements ProductControllerInterface {
 			return null;
 		}
 	}
+
+	@Override
+	public ResponseEntity<ListResponse> getCategories(Integer sellerId) {
+		// TODO Auto-generated method stub
+		if (Objects.nonNull(sellerId)) {
+			return ResponseEntity.ok(productService.getCategories(sellerId));
+		} else {
+			return null;
+		}
+	}
+
+	@Override
+	public ResponseEntity<ListResponse> getSellers() {
+		// TODO Auto-generated method stub
+		return ResponseEntity.ok(productService.getSellers());
+	}
+
 
 }

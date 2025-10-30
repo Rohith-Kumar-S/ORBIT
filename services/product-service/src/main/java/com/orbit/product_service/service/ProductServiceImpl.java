@@ -11,11 +11,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.orbit.product_service.dao.CategoryServiceRepo;
 import com.orbit.product_service.dao.ProductServiceRepo;
 import com.orbit.product_service.dao.SellerServiceRepo;
+import com.orbit.product_service.dto.ListResponse;
 import com.orbit.product_service.dto.Product;
 import com.orbit.product_service.dto.ProductInternalDto;
 import com.orbit.product_service.mapper.ProductServiceMapper;
+import com.orbit.product_service.model.Category;
 import com.orbit.product_service.model.Seller;
 
 import jakarta.transaction.Transactional;
@@ -25,14 +28,16 @@ public class ProductServiceImpl implements ProductServiceInterface {
 
 	private final ProductServiceRepo productServiceRepo;
 	private final SellerServiceRepo sellerServiceRepo;
+	private final CategoryServiceRepo categoryServiceRepo;
 	private ProductServiceMapper productServiceMapper;
 
 	@Autowired
 	public ProductServiceImpl(ProductServiceRepo productServiceRepo, SellerServiceRepo sellerServiceRepo,
-			ProductServiceMapper productServiceMapper) {
+			CategoryServiceRepo categoryServiceRepo, ProductServiceMapper productServiceMapper) {
 		// TODO Auto-generated constructor stub
 		this.productServiceRepo = productServiceRepo;
 		this.sellerServiceRepo = sellerServiceRepo;
+		this.categoryServiceRepo = categoryServiceRepo;
 		this.productServiceMapper = productServiceMapper;
 
 	}
@@ -89,7 +94,8 @@ public class ProductServiceImpl implements ProductServiceInterface {
 	@Override
 	public List<ProductInternalDto> getAllProductsByIds(List<String> productIds) {
 		List<com.orbit.product_service.model.Product> products = this.productServiceRepo.findAllById(productIds);
-		return products.stream().map(this.productServiceMapper::mapProductModelToInternalDto).collect(Collectors.toList());
+		return products.stream().map(this.productServiceMapper::mapProductModelToInternalDto)
+				.collect(Collectors.toList());
 	}
 
 	@Override
@@ -105,13 +111,35 @@ public class ProductServiceImpl implements ProductServiceInterface {
 	@Override
 	public Page<Product> getPopularProducts(Integer sellerId, Integer pageNumber, Integer productCount) {
 		// TODO Auto-generated method stub
-		Sort sort = Sort.by( Sort.Order.desc("rating"),
-			    Sort.Order.desc("reviewCount"));
+		Sort sort = Sort.by(Sort.Order.desc("rating"), Sort.Order.desc("reviewCount"));
 		Pageable pageable = PageRequest.of(pageNumber, productCount, sort);
 		Page<com.orbit.product_service.model.Product> productsPageModel = this.productServiceRepo
 				.findBySellerId(sellerId, pageable);
 		Page<Product> productsDto = productsPageModel.map(this.productServiceMapper::mapProductModelToView);
 		return productsDto;
+	}
+
+	@Override
+	public ListResponse getCategories(Integer sellerId) {
+		try {
+		List<String> categoryNames = categoryServiceRepo.findAllBySellerId(sellerId).stream().map(Category::getCategoryName).collect(Collectors.toList());
+		return new ListResponse(categoryNames.isEmpty()?Boolean.FALSE:Boolean.TRUE, categoryNames);
+		}
+		catch(Exception ex) {
+			return new ListResponse(Boolean.FALSE, null);
+		}
+	}
+
+	@Override
+	public ListResponse getSellers() {
+		// TODO Auto-generated method stub
+		try {
+			List<String> categoryNames = sellerServiceRepo.findAllByIsActive(Boolean.TRUE).stream().map(Seller::getName).collect(Collectors.toList());
+			return new ListResponse(categoryNames.isEmpty()?Boolean.FALSE:Boolean.TRUE, categoryNames);
+			}
+			catch(Exception ex) {
+				return new ListResponse(Boolean.FALSE, null);
+			}
 	}
 
 }

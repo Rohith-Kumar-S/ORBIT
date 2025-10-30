@@ -3,6 +3,7 @@ package com.orbit.product_service.service;
 import java.util.List;
 import org.springframework.data.domain.Page;
 
+import com.orbit.product_service.dto.ListResponse;
 import com.orbit.product_service.dto.Product;
 import com.orbit.product_service.dto.ProductInternalDto;
 
@@ -20,4 +21,8 @@ public interface ProductServiceInterface {
 	Integer getActiveSeller();
 
 	Page<Product> getPopularProducts(Integer sellerId, Integer pageNumber, Integer productCount);
+	
+	ListResponse getCategories(Integer sellerId);
+	
+	ListResponse getSellers();
 }

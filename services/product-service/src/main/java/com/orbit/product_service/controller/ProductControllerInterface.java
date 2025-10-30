@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.orbit.product_service.dto.ListResponse;
 import com.orbit.product_service.dto.Product;
 import com.orbit.product_service.dto.ProductInternalDto;
 import com.orbit.product_service.dto.ProductsResponse;
@@ -30,4 +31,10 @@ public interface ProductControllerInterface {
 	@GetMapping("/products/popular")
 	ResponseEntity<ProductsResponse> getPopularProducts(@RequestParam(defaultValue = "0") Integer sellerId,@RequestParam(defaultValue = "0") Integer page,
 			@RequestParam(defaultValue = "10") Integer productCount);
+	
+	@GetMapping("/product/categories")
+	ResponseEntity<ListResponse> getCategories(@RequestParam(defaultValue = "0") Integer sellerId);
+	
+	@GetMapping("/product/sellers")
+	ResponseEntity<ListResponse> getSellers();
 }
