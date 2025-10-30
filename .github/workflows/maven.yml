@@ -76,7 +76,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -89,7 +89,7 @@ jobs:
         key: ${{ secrets.EC2_SSH_KEY }}
         source: "docker-compose.yml"
         target: "/home/ubuntu/orbit/"
-        
+
     - name: SSH to EC2 and deploy
       uses: appleboy/ssh-action@v1.2.0
       with:
