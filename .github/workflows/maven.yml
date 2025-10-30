@@ -75,6 +75,7 @@ jobs:
         password: ${{ secrets.DOCKER_PASSWORD }}
 
   deploy:
+    needs: build
     runs-on: self-hosted
     steps:
       - name: Download docker-compose.yml
