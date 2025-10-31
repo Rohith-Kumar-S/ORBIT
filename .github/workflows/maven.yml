@@ -74,6 +74,16 @@ jobs:
           directory: services/cart-service
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build & push Orbit Frontend image
+        uses: mr-smithers-excellent/docker-build-push@v6
+        with:
+          image: phantomrogue88/orbit-app
+          tags: v1, latest
+          registry: docker.io
+          dockerfile: frontend/orbit-app/Dockerfile
+          directory: frontend/orbit-app
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
   deploy:
     needs: build
