@@ -9,7 +9,6 @@ import com.orbit.order_service.dto.Response;
 import com.orbit.order_service.service.OrderServiceInterface;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class OrderControllerImpl implements OrderControllerInterface {
 
   private final OrderServiceInterface orderService;

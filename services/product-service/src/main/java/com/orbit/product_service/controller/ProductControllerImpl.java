@@ -17,7 +17,6 @@ import com.orbit.product_service.dto.ProductsResponse;
 import com.orbit.product_service.service.ProductServiceInterface;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class ProductControllerImpl implements ProductControllerInterface {
 
 	private final ProductServiceInterface productService;

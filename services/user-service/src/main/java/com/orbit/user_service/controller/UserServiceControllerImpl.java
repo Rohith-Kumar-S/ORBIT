@@ -11,7 +11,6 @@ import com.orbit.user_service.dto.UserDetails;
 import com.orbit.user_service.service.UserServiceInterface;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
 public class UserServiceControllerImpl implements UserServiceControllerInterface{
 	
 	private final UserServiceInterface userService;
