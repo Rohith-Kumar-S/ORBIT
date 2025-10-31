@@ -40,7 +40,7 @@ api.interceptors.response.use(
 export const authAPI = {
   login: async (email, password) => {
     console.log('API Login called with:', email, password);
-    const response = await api.post('http://user-service:8080/api/auth/user/login', {
+    const response = await api.post('http://3.211.201.146:8080/api/auth/user/login', {
       email,
       password
     });
@@ -50,7 +50,7 @@ export const authAPI = {
   
   register: async (name, mobile, email, password) => {
     console.log('API Register called with:', name, mobile, email, password);
-    const response = await api.post('http://user-service:8080/api/auth/user/register', {
+    const response = await api.post('http://3.211.201.146:8080/api/auth/user/register', {
       name,
       mobileNumber: mobile,
       email,
@@ -83,7 +83,7 @@ export const authAPI = {
 export const ordersAPI = {
   getOrders: async () => {
     // Dummy implementation
-    const response = await api.get('http://order-service:8082/api/order');
+    const response = await api.get('http://3.211.201.146:8082/api/order');
     if(response.data.status){
     return response.data;
     }

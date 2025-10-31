@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create axios instance with base URL
 const api = axios.create({
-  baseURL: 'http://cart-service:8081/api/cart', // Change this to your backend URL
+  baseURL: 'http://3.211.201.146:8081/api/cart', // Change this to your backend URL
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
